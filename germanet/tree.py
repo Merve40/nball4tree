@@ -12,7 +12,7 @@ class Node:
 
     def add_child(self, word):
         if self.has_child(word):
-            return
+            return None
 
         index = len(self.children)+1
         node = Node(word, index, self)

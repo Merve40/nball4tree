@@ -353,7 +353,6 @@ def training_one_family(treeStruc=None,root=None, addDim=[], wsChildrenDic = dic
                                                outputPath=outputPath, logFile=logFile)
         # children shall be separated
         if len(children) > 1:
-            # print('training dc of root', root)
             word2ballDic = training_DC_by_name(children, wsChildrenDic=wsChildrenDic, word2ballDic=word2ballDic,
                                                outputPath=outputPath, logFile=logFile)
         # root ball shal contain all children balls

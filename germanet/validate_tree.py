@@ -30,7 +30,7 @@ def __add_children(tree, parent, children, log):
     if parent == "*root*":
         parent_node = tree.root
     else:
-        parent_node = __search_bfs([tree.root], parent)
+        parent_node = __search([tree.root], parent)
         if parent_node is None:
             log.write("validation error: synset '"+parent+"' is not in tree\n")
             return
@@ -53,6 +53,17 @@ def __search_bfs(queue, target_node_name):
         else:
             queue.insert(0, child)
     return __search_bfs(queue, target_node_name)
+
+def __search(tree, target_node_name):
+    q = [tree.root]
+    while len(q) > 0:
+        node = q.pop()
+        for child in node.children:
+            if child.word == target_node_name:
+                return child
+            q.insert(0, child)
+    return None
+
 
 def __validate_tree(file, log):
     global num_nodes, words

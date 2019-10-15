@@ -15,7 +15,7 @@ def __load_tree(file, log):
             # validation step 1: check for duplicate nodes
             if parent in words:
                 if words[parent] > 1:
-                    log.write("validation error: synset '"+parent+"' appears more than 2 times!")
+                    log.write("validation error: synset '"+parent+"' appears more than 2 times!\n")
                 elif children is None: # is leaf
                     words[parent] += 1
             else:
@@ -32,7 +32,7 @@ def __add_children(tree, parent, children, log):
     else:
         parent_node = __search_bfs([tree.root], parent)
         if parent_node is None:
-            log.write("validation error: synset '"+parent+"' is not in tree")
+            log.write("validation error: synset '"+parent+"' is not in tree\n")
             return
 
     if children is None:
@@ -57,12 +57,12 @@ def __search_bfs(queue, target_node_name):
 def __validate_tree(file, log):
     global num_nodes, words
 
-    log.write("loading tree")
+    log.write("loading tree\n")
     __load_tree(file, log)
-    log.write("finished loading tree")
+    log.write("finished loading tree\n")
     if len(words.keys()) != num_nodes:
         diff = abs(len(words.keys()) - num_nodes)
-        log.write("validation error: missing nodes "+str(diff))
+        log.write("validation error: missing nodes "+str(diff)+"\n")
 
 def __validate_file(file, log):
     synsets = {}
@@ -76,18 +76,19 @@ def __validate_file(file, log):
 
     for syn in synsets:
         if synsets[syn] > 2:
-            log.write("validation error: synset '"+syn+"' appears more than twice!")
+            log.write("validation error: synset '"+syn+"' appears more than twice!\n")
         elif synsets[syn] == 1:
-            log.write("validation error: synset '"+syn+"' appears only once!")
+            log.write("validation error: synset '"+syn+"' appears only once!\n")
 
 def validate(file, logfile):
     global num_nodes, words
     num_nodes = 0
     words = {}
     with open(logfile, 'w+') as log:
-        log.write("Step 1: validate file")
-        log.write("------------------------")
+        log.write("Step 1: validate file\n")
+        log.write("------------------------\n")
         __validate_file(file, log)
-        log.write("\nStep 2: validate tree")
-        log.write("------------------------")
+        log.write("\nStep 2: validate tree\n")
+        log.write("------------------------\n")
         __validate_tree(file, log)
+        # TODO: use germanet to query the hypernym paths of leafs (in tree) and compare if correct

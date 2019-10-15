@@ -1,9 +1,19 @@
+from pygermanet import load_germanet
+import numpy as np
 from germanet.tree import Tree
 
+germanet = load_germanet()
 num_nodes = 0
 words = {}
+leaf_nodes = []
 
 def __load_tree(file, log):
+    """
+    Creates and fills tree from the input file.
+
+    :param file: file containing word-sense parents and their children
+    :param log: log file
+    """
     global words
 
     tree = Tree()
@@ -24,7 +34,15 @@ def __load_tree(file, log):
             __add_children(tree, parent, children, log)
 
 def __add_children(tree, parent, children, log):
-    global num_nodes
+    """
+    Reads children from the file and adds them in the tree to the parent node.
+
+    :param tree: Tree
+    :param parent: parent node
+    :param children: children nodes
+    :param log: log file
+    """
+    global num_nodes, leaf_nodes
 
     parent_node = None
     if parent == "*root*":
@@ -36,6 +54,7 @@ def __add_children(tree, parent, children, log):
             return
 
     if children is None:
+        leaf_nodes.append(parent_node)
         return
 
     for child in children:
@@ -43,18 +62,13 @@ def __add_children(tree, parent, children, log):
         if added is not None:
             num_nodes += 1
 
-def __search_bfs(queue, target_node_name):
-    if len(queue) == 0:
-        return None
-    node = queue.pop()
-    for child in node.children:
-        if child.word == target_node_name:
-            return child
-        else:
-            queue.insert(0, child)
-    return __search_bfs(queue, target_node_name)
-
 def __search(tree, target_node_name):
+    """
+    Searches for the target node in BFS order.
+    :param tree: Tree
+    :param target_node_name: synset / word-sense
+    :return: parent node or None if it could not find node with target_node_name
+    """
     q = [tree.root]
     while len(q) > 0:
         node = q.pop()
@@ -66,16 +80,28 @@ def __search(tree, target_node_name):
 
 
 def __validate_tree(file, log):
+    """
+    Function for validating the tree recreated tree structure.
+
+    :param file: file containing word-sense parents and their children
+    :param log: log file
+    """
     global num_nodes, words
 
     log.write("loading tree\n")
     __load_tree(file, log)
     log.write("finished loading tree\n")
     if len(words.keys()) != num_nodes:
-        diff = abs(len(words.keys()) - num_nodes)
+        diff = abs(len(words.keys()) - (num_nodes -1) ) # exclude *root*
         log.write("validation error: missing nodes "+str(diff)+"\n")
 
 def __validate_file(file, log):
+    """
+    Validates file by checking for duplicates.
+
+    :param file: file containing word-sense parents and their children
+    :param log: log file
+    """
     synsets = {}
     with open(file , 'r') as f:
         for line in f:
@@ -88,18 +114,62 @@ def __validate_file(file, log):
     for syn in synsets:
         if synsets[syn] > 2:
             log.write("validation error: synset '"+syn+"' appears more than twice!\n")
-        elif synsets[syn] == 1:
+        elif synsets[syn] == 1 and not syn == "*root*":
             log.write("validation error: synset '"+syn+"' appears only once!\n")
+
+
+def __validate_hypernyms(log):
+    """
+    Compares the hypernyms of all leaf nodes with the hypernyms in germanet.
+
+    :param log: log file
+    """
+    global leaf_nodes, germanet
+    for leaf in leaf_nodes:
+        paths_germanet = germanet.synset(leaf.word).hypernym_paths
+        path = []
+        node = leaf.parent
+        while node is not None:
+            path.insert(0, node.word)
+            node = node.parent
+        if not __is_equal(path, paths_germanet):
+            log.write("validation error: synset '"+leaf.word+"' has wrong path -> ["+ ",".join(path) +"]\n")
+
+def __is_equal(path_tree, paths_germanet):
+    """
+    Compares if hypernym path in tree and hypernym path(s) in germanet are equal.
+
+    :param path_tree: path in tree
+    :param paths_germanet: path in germanet
+    :return: True if paths are equal, otherwise False
+    """
+    if len(paths_germanet) > 0 and isinstance(paths_germanet[0], list):
+        for path in paths_germanet:
+            if len(path) != len(path_tree):
+                continue
+            if __eq(path_tree, path):
+                return True
+    elif __eq(path_tree, paths_germanet):
+        return True
+
+    return False
+
+def __eq(path1, path2):
+    p = []
+    for syn in path2[1:]:
+        p.append(syn.__str__()[7:-1])
+    return np.array_equal(path1[1:], p)
 
 def validate(file, logfile):
     global num_nodes, words
     num_nodes = 0
     words = {}
-    with open(logfile, 'w+') as log:
+    with open(logfile, 'a+') as log:
         log.write("Step 1: validate file\n")
-        log.write("------------------------\n")
+        log.write("------------------------------\n")
         __validate_file(file, log)
         log.write("\nStep 2: validate tree\n")
-        log.write("------------------------\n")
+        log.write("------------------------------\n")
         __validate_tree(file, log)
-        # TODO: use germanet to query the hypernym paths of leafs (in tree) and compare if correct
+        log.write("\nStep 3: validate hypernyms\n")
+        log.write("------------------------------\n")

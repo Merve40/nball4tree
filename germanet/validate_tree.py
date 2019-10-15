@@ -14,9 +14,9 @@ def __load_tree(file, log):
 
             # validation step 1: check for duplicate nodes
             if parent in words:
-                if words[parent] > 1:
+                if words[parent] >= 2:
                     log.write("validation error: synset '"+parent+"' appears more than 2 times!\n")
-                elif children is None: # is leaf
+                else:
                     words[parent] += 1
             else:
                 words[parent] = 1
@@ -52,7 +52,7 @@ def __search_bfs(queue, target_node_name):
             return child
         else:
             queue.insert(0, child)
-    __search_bfs(queue, target_node_name)
+    return __search_bfs(queue, target_node_name)
 
 def __validate_tree(file, log):
     global num_nodes, words

@@ -30,7 +30,7 @@ def __add_children(tree, parent, children, log):
     if parent == "*root*":
         parent_node = tree.root
     else:
-        parent_node = __search([tree.root], parent)
+        parent_node = __search(tree, parent)
         if parent_node is None:
             log.write("validation error: synset '"+parent+"' is not in tree\n")
             return

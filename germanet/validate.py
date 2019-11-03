@@ -186,4 +186,4 @@ def validate(file, logfile):
         log.write("------------------------------\n")
         log.write("Finished validating. Total errors="+str(errors)+"\n")
         if errors == 0:
-            log.write("The tree-structure in '"+file+"' seems to be valid!+\n")
+            log.write("The tree-structure in '"+file+"' seems to be valid!\n")

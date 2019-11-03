@@ -52,15 +52,8 @@ def dis_between_ball_centers(ball1, ball2):
     if ball1 == ball2:
         return 0
     cos = np.dot([decimal.Decimal(ele) for ele in ball1[:-2]], [decimal.Decimal(ele) for ele in ball2[:-2]])
-    '''
-    d2_1 = decimal.Decimal(ball1[-2] * ball1[-2] + ball2[-2] * ball2[-2])
-    d2_2 = 2 * decimal.Decimal(ball1[-2]) * decimal.Decimal(ball2[-2]) * decimal.Decimal(cos)
-    d2 = d2_1 - d2_2
-    '''
-
     d2 = decimal.Decimal(ball1[-2] * ball1[-2] + ball2[-2] * ball2[-2]) \
          - 2 * decimal.Decimal(ball1[-2]) * decimal.Decimal(ball2[-2]) * decimal.Decimal(cos)
-
     # v1 = np.multiply([decimal.Decimal(ele) for ele in ball1[:-2]], ball1[-2])
     # v2 = np.multiply([decimal.Decimal(ele) for ele in ball2[:-2]], ball2[-2])
     # return dis_between(v1, v2)

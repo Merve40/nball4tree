@@ -25,6 +25,8 @@ def get_word2vector(wordsense, word2vecDic = dict()):
     wd = wordsense.split('.')[0]
     if wd in word2vecDic:
         return word2vecDic[wd]
+    elif wordsense.split('.')[0] in word2vecDic:
+        return word2vecDic[wordsense.split('.')[0]]
 
 
 def initialize_ball(root, addDim=[], L0=0.1, R0=0.1,
@@ -73,12 +75,6 @@ def training_P_by_name(childName, atreeName, addDim=[], wsChildrenDic=dict(),wor
         LeafL, LeafR = BallLeaf[-2],BallLeaf[-1]
         ParentL, ParentR = LeafL + LeafR + cgap, LeafR + LeafR + cgap + cgap
         BallParent = ParentO + [ParentL, ParentR]
-
-        '''
-        t = ParentR / ParentL
-        if t >= 1:
-            print("break")
-        '''
 
         word2ballDic.update({atreeName: BallParent})
     else:
@@ -147,12 +143,6 @@ def training_P_by_name(childName, atreeName, addDim=[], wsChildrenDic=dict(),wor
         ParentR = ParentL * (decimal.Decimal(sin_alpha) * decimal.Decimal(cos_beta)
                              + decimal.Decimal(cos_alpha) * decimal.Decimal(sin_beta)) + decimal.Decimal(0.1)
 
-        '''
-        t = ParentR / ParentL
-        if t >= 1:
-            print("break")
-        '''
-
         BallParent = ParentO + [ParentL, ParentR]
         word2ballDic.update({atreeName: BallParent})
 
@@ -164,12 +154,6 @@ def training_P_by_name(childName, atreeName, addDim=[], wsChildrenDic=dict(),wor
             ParentR += delta
             delta *= 10
         BallParent = ParentO + [ParentL, ParentR]
-
-        '''
-        t = ParentR / ParentL
-        if t >= 1:
-            print("break")
-        '''
 
         word2ballDic.update({atreeName: BallParent})
         # print('*', qsr_P_degree_by_name(childName, atreeName))
@@ -228,12 +212,6 @@ def making_ball_contains(root, children,  addDim=[], word2vecDic=dict(),
 
             word2ballDic[root] = word2ballDic[root][:-2] + [maxL, maxL - minL_R + cgap]
 
-            '''
-            t = word2ballDic[root][-1] / word2ballDic[root][-2]
-            if t >= 1:
-                print("break")
-            '''
-
             if outputPath:
                 create_ball_file(root,  outputPath=outputPath,word2ballDic=word2ballDic)
     return word2ballDic
@@ -274,11 +252,6 @@ def training_DC_by_name(childrenNames, wsChildrenDic=dict(), word2ballDic=dict()
                 ball1 = word2ballDic[curTreeName]
                 l1, r1 = decimal.Decimal(ball1[-2]), decimal.Decimal(ball1[-1])
                 k = r1 / l1
-
-                '''
-                if k >= 1:
-                    print("break")
-                '''
 
                 if k == 1:
                     L, R = word2ballDic[curTreeName][-2:]

@@ -36,7 +36,7 @@ def shift_whole_tree_of(tree, deltaVec, deltaL, wsChildrenDic=dict(), word2ballD
             else:
                 break
 
-    create_ball_file(tree, outputPath=outputPath)shift_whole_tree_of
+    create_ball_file(tree, outputPath=outputPath)
     """
     for child in get_children(tree, wsChildrenDic=wsChildrenDic, word2ballDic=word2ballDic):
         word2ballDic = shift_whole_tree_of(child, deltaVec, deltaL, wsChildrenDic=wsChildrenDic,
@@ -46,11 +46,6 @@ def shift_whole_tree_of(tree, deltaVec, deltaL, wsChildrenDic=dict(), word2ballD
     l = np.sqrt(l1 * l1 + deltaL * deltaL
                 + 2 * l1 * deltaL * vec_cos(deltaVec, word2ballDic[tree][:-2]))
     newVec = vec_norm(vec_point(word2ballDic[tree][:-2], l1) + vec_point(deltaVec, deltaL))
-
-    '''
-    if (r1/l) >= 1:
-        print("break")
-    '''
 
     word2ballDic[tree] = list(newVec) + [l, r1]
 
@@ -105,8 +100,8 @@ def rotate_vector_till(vec, vecRef, word2ballDic=dict(), logFile=None):
 
         word2ballDic[vec][:-2] = rotate(word2ballDic[vec][:-2], cos_alpha)
         print('sh in rotation alpha ', k, cos_alpha)
-        dcDelta = qsr_DC_degree(word2ballDic[vecRef], word2ballDic[vec])
         k += 1
+        dcDelta = qsr_DC_degree(word2ballDic[vecRef], word2ballDic[vec])
 
     if rotateFlag and logFile is not None:
         with open(logFile, 'a+') as wlog:
@@ -163,11 +158,6 @@ def ratio_homothetic_DC_transform(curTree, refTree, wsChildrenDic=dict(),
         l1, r1 = decimal.Decimal(ball1[-2]), decimal.Decimal(ball1[-1])
         k = r1 / l1
 
-        '''
-        if k >=1:
-            print("break")
-        '''
-
         targetsin0 *= 0.9
 
     margin = 10
@@ -183,12 +173,6 @@ def ratio_homothetic_DC_transform(curTree, refTree, wsChildrenDic=dict(),
 
         # same as => word2ballDic[curTree][-1] *= ratio
         word2ballDic[curTree][-1] = l * ratio - (l - word2ballDic[curTree][-1]) * ratio
-
-        '''
-        q = word2ballDic[curTree][-1] / word2ballDic[curTree][-2]
-        if q >= 1:
-            print("break")
-        '''
 
         delta = qsr_DC_degree(word2ballDic[curTree],word2ballDic[refTree])
         if delta > 0:
@@ -251,12 +235,6 @@ def homothetic_recursive_transform_of_decendents(tree, root=None, rate=None,
 
         word2ballDic[tree][-1] = l * rate - (l - word2ballDic[tree][-1]) * rate
 
-        '''
-        t = word2ballDic[tree][-1] / word2ballDic[tree][-2]
-        if t >= 1:
-            print("break")
-        '''
-
         # word2ballDic[tree][-1] *=  rate
         if outputPath:
             create_ball_file(tree, outputPath=outputPath, word2ballDic=word2ballDic)
@@ -287,8 +265,8 @@ def homothetic_recursive_transform_of_decendents(tree, root=None, rate=None,
                     gap *= 10
                 else:
                     t = word2ballDic[tree][-1] / word2ballDic[tree][-2]
-                    if t >= 1:
-                        print("break -> tree="+tree+"; child="+child+"; root="+root+";")
+                    #if t >= 1:
+                    #    print("break -> tree="+tree+"; child="+child+"; root="+root+";")
                     break
         if outputPath:
             create_ball_file(tree, outputPath=outputPath, word2ballDic=word2ballDic)

@@ -137,7 +137,7 @@ def __validate_hypernyms(log):
     global leaf_nodes, germanet, errors
     for leaf in leaf_nodes:
         paths_germanet = germanet.synset(leaf.word).hypernym_paths
-        path = []
+        path = [leaf.word]
         node = leaf.parent
         while node is not None:
             path.insert(0, node.word)
@@ -184,6 +184,7 @@ def validate(file, logfile):
         __validate_tree(file, log)
         log.write("\nStep 3: validate hypernyms\n")
         log.write("------------------------------\n")
+        __validate_hypernyms(log)
         log.write("Finished validating. Total errors="+str(errors)+"\n")
         if errors == 0:
             log.write("The tree-structure in '"+file+"' seems to be valid!\n")

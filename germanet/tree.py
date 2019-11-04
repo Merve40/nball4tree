@@ -105,7 +105,7 @@ class Tree:
             file.write(code+"\n")
             for child in node.children:
                 traverse(child, file)
-    
+
         node = self.root
         with open(outputfile, 'w') as file:
             traverse(node, file)
@@ -132,7 +132,7 @@ class Tree:
                 for child in node.children:
                     traverse(child, visited, file)
 
-        node = self.root
         visited = {'0'}
+        node = self.root
         with open(outputfile, 'w') as file:
             traverse(node, visited, file)

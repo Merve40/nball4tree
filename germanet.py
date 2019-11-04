@@ -1,22 +1,24 @@
 from germanet.util import GermaNetUtil
 
-dir = 'data/'
+dir = 'data/GermaNet/'
 file_word_embedding = 'data/w2v_3.vec'
-output_words = 'data/sample_words.txt'
-output_tree = 'data/sample_children.txt'
-output_codes = 'data/sample_catcodes.txt'
+output_w2v = 'data/ws_w2v.vec'
+output_words = 'data/ws_words.txt'
+output_tree = 'data/ws_children.txt'
+output_codes = 'data/ws_catcodes.txt'
 
-util = GermaNetUtil(dir, file_word_embedding)
+util = GermaNetUtil(dir, file_word_embedding, output_w2v)
 
 print("----------- loading tree -----------------------")
 tree = util.load_tree(output_words)
 
-print("----------- writing parent location codes ------")
+print("\n----------- writing parent location codes ------")
 tree.write_parent_location_code(output_codes)
+print("created "+output_codes)
 
-print("----------- writing tree -----------------------")
+print("\n----------- writing tree -----------------------")
 tree.write_tree(output_tree)
-
+print("created "+output_tree+'\n')
 
 words = []
 leafs = []
@@ -35,3 +37,7 @@ print("tree:")
 print("nodes="+str(len(codes)))
 print("leafs="+str(len(leafs)))
 print("max-depth="+str(tree.depth))
+
+print("\n----------- writing new w2v file ---------------")
+util.create_w2v_file(tree)
+print("created "+output_w2v)

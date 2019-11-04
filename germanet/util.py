@@ -9,10 +9,12 @@ class GermaNetUtil:
 
 	__source = ''
 	__w2vec_file = ''
+	__new_w2v_file = ''
 	__ignore_duplicates = True
+	__dim = 50
 	
 
-	def __init__(self, sourcefolder, wordvec_file, ignore_duplicates=True):
+	def __init__(self, sourcefolder, wordvec_file, new_w2v_file, ignore_duplicates=True):
 		"""
 		:param sourcefolder: folder containing all xml files from GermaNet
 		:param wordvec_file: file containing german word-embeddings
@@ -20,6 +22,7 @@ class GermaNetUtil:
 
 		self.__source = sourcefolder
 		self.__w2vec_file = wordvec_file
+		self.__new_w2v_file = new_w2v_file
 		self.__ignore_duplicates = ignore_duplicates
 
 	def load_tree(self, outputfile):
@@ -125,6 +128,7 @@ class GermaNetUtil:
 
 		# skips step 2 and 3
 		if os.path.isfile(outputFile):
+			print("skipping step 2 and 3")
 			synsets = set()
 			with open(outputFile, 'r') as file:
 				for line in file:
@@ -148,3 +152,24 @@ class GermaNetUtil:
 				f.write('\n')
 
 		return set(synsets), embedded_words
+
+	def create_w2v_file(self, tree):
+		"""
+		Creates a new word-to-vector file, which contains only those vectors that are also contained in Germanet.
+
+		:param tree: Tree
+		"""
+		words = set()
+		q = [tree.root]
+		while len(q) > 0:
+			node = q.pop()
+			words.add(node.word.split('.')[0])
+
+			for child in node.children:
+				q.insert(0, child)
+
+		with open(self.__w2vec_file, 'r') as f, open(self.__new_w2v_file, 'w+') as out:
+			for line in f:
+				word = line.split()[0]
+				if word in words:
+					out.write(line+"\n")

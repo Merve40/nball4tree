@@ -172,4 +172,4 @@ class GermaNetUtil:
 			for line in f:
 				word = line.split()[0]
 				if word in words:
-					out.write(line+"\n")
+					out.write(line)

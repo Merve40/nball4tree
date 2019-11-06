@@ -1,11 +1,11 @@
 from germanet.util import GermaNetUtil
 
-dir = 'data/'
+dir = 'data/GermaNet/'
 file_word_embedding = 'data/w2v_3.vec'
-output_w2v = 'data/sample_w2v.vec'
-output_words = 'data/sample_words.txt'
-output_tree = 'data/sample_children.txt'
-output_codes = 'data/sample_catcodes.txt'
+output_w2v = 'data/ws_w2v.vec'
+output_words = 'data/ws_words.txt'
+output_tree = 'data/ws_children.txt'
+output_codes = 'data/ws_catcodes.txt'
 
 util = GermaNetUtil(dir, file_word_embedding, output_w2v)
 

@@ -1,9 +1,9 @@
 # Table of Contents
 * **[Install the package](#install-the-package)**    
 * **[GermaNet](#germanet)**    
-* **[Experiment 1:  Training and evaluating nball embeddings](#Experiment-1:-Training-and-evaluating-nball-embeddings)**    
-* **[Experiment 2: Observe neighbors of word-sense using nball embeddings](#Experiment-2:-Observe-neighbors-of-word-sense-using-nball-embeddings)**     
-* **[NBalls for other languages](#NBalls-for-other-languages)**   
+* **[Experiment 1:  Training and evaluating nball embeddings](#experiment-1--training-and-evaluating-nball-embeddings)**    
+* **[Experiment 2: Observe neighbors of word-sense using nball embeddings](#experiment-2-observe-neighbors-of-word-sense-using-nball-embeddings)**     
+* **[NBalls for other languages](#nballs-for-other-languages)**   
 * **[Cite](#cite)**   
 
 # Install the package

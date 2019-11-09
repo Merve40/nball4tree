@@ -1,3 +1,11 @@
+# Table of Contents
+* **[Install the package](#install-the-package)**    
+* **[GermaNet](#germanet)**    
+* **[Experiment 1:  Training and evaluating nball embeddings](#Experiment-1:-Training-and-evaluating-nball-embeddings)**    
+* **[Experiment 2: Observe neighbors of word-sense using nball embeddings](#Experiment-2:-Observe-neighbors-of-word-sense-using-nball-embeddings)**     
+* **[NBalls for other languages](#NBalls-for-other-languages)**   
+* **[Cite](#cite)**   
+
 # Install the package
 
 * for Ubuntu platform please first install python3-tk
@@ -16,11 +24,47 @@ $ pip install -r requirements.txt
 
 ```
 
+* Download the [german word embedding](https://fasttext.cc/docs/en/crawl-vectors.html) file 
+
+## Setup GermaNet
+
+* Install [Mongo DB](https://docs.mongodb.com/manual/installation/#mongodb-community-edition-installation-tutorials)
+* Unzip `data/GermaNet.zip`
+* Unzip `data/mongo_dump_germanet.zip`
+* Restore database    
+    ```bash
+    $ mongorestore --db germanet dump/germanet/
+    ```
+
+# GermaNet
+#### 1) Shell command for creating german input files for nball training:
+    
+    $ python germanet.py --generate_files data/ --germanet_xml_path data/GermaNet/ --w2v data/w2v.vec
+    % --generate_files: output directory for storing generated files
+    % --germanet_xml_path: the path to the GermaNet XML files
+    % --w2v: file of pre-trained word embeddings 
+    
+
+#### 2) Shell command for validating tree file:
+    
+    $ python germanet.py --validate_tree data/ws_child.txt --log data/validation.log
+    % --validate_tree: the tree file to validate, which was generated in 1)
+    % --log: log file containing the result of the validation
+    
+   
+#### 3) Shell command for generating tsv files for tensorflow:
+Can be used to compare neighbors in word embedding and neighbors in nball (experiment 2).
+
+    $ python germanet.py --export_tensorflow data/ --w2v data/w2v.vec --ws_child data/ws_child.txt
+    % --export_tensorflow: output directory for storing tsv files
+    % --w2v: file of pre-trained word embeddings
+    % --ws_child: the tree file generated in 1)
+
+
+
 # Experiment 1:  Training and evaluating nball embeddings
 ## Experiment 1.1: Training nball embeddings
-* [datasets for training nball embeddings](https://drive.google.com/file/d/1V2kBNgxDzFBznkd97UuwDW0OtionpP6y/view?usp=sharing)
-* download glove.6B.50d.txt from the GloVe webpage https://nlp.stanford.edu/projects/glove/ 
-* shell command for running the nball construction and training process
+Shell command for running the nball construction and training process:
 ```
 % you need to create an empty file nball.txt for output
 
@@ -69,48 +113,6 @@ $ python nball.py --neighbors beijing.n.01 berlin.n.01  --ball /Users/<user-name
 
 * Results of nearest neighbors look like below:
 
- <a href="url"><img src="https://github.com/gnodisnait/nball4tree/blob/master/pic/nbneighbors.png"   height="700" width="500" ></a></p>
-
-# Experiment 3: Consistency analysis
-
-## deviation of word-stems
-* [datasets for analyzing deviation of word-stems](https://drive.google.com/file/d/17H2bDIopjyAYjk61GOle_hvVDvtxKN64/view?usp=sharing)
-
-* shell command for running the experiment
-```
-$ python nball.py  --std_stem /Users/<user-name>/data/glove/wordstem.std --dim 50 --w2v /Users/<user-name>/data/glove/glove.6B.50d.txt --ballStemFile /Users/<user-name>/data/glove/glove.6B.50Xball.words --ball /Users/<user-name>/data/glove/glove.6B.50Xball.V10.txt
-```
-* Result of consistency analysis
-
-<a href="url"><img src="https://github.com/gnodisnait/nball4tree/blob/master/pic/std0.pnd"  height="400" width="500" ></a></p>
-
-# Experiment 4: Validating unknown word-senses or words
-
-* [datasets for validating unknown word-sense or words](https://drive.google.com/file/d/1JN8eXzjTGsQDi079ZQXqhYu__N2pVQ_w/view?usp=sharing)
-* shell command for running the experiment
-```
-$ python nball.py  --validate_member /Users/<user-name>/data/glove/memberValidation/membershipPredictionResult.txt \
-                    --numOfChild 10  --percentages 5 10 20 30 40 50 60 70 80 90  \
-                    --taskFiles /Users/<user-name>/data/glove/memberValidation/membershipPredictionTask.txt \
-                    --w2v /Users/<user-name>/data/glove/glove.6B.50d.txt \
-                    --ws_child /Users/<user-name>/data/glove/wordSenseChildren.txt  \
-                    --ws_path /Users/<user-name>/data/glove/wordSensePath.txt \
-                    --ws_catcode /Users/<user-name>/data/glove/glove.6B.catcode.txt \
-                    --logPath /Users/<user-name>/data/glove/logMemberValidate
-```
-
-* command for viewing the result of validating unknown word-sense or word
-```
-$ python nball.py  --plot_validate_member /Users/<user-name>/data/glove/memberValidation/membershipPredictionResult.txt      --numOfChild 10       --percentages 5 10 20 30 40 50 60 70 80 90
-```
-
-* Precision of validating the category of unknown words
-
-<a href="url"><img src="https://github.com/gnodisnait/nball4tree/blob/master/pic/precision.png"  height="400" width="500" ></a></p>
-
-* Recall of validating the category of unknown words
-
-<a href="url"><img src="https://github.com/gnodisnait/nball4tree/blob/master/pic/recall.png"  height="400" width="500" ></a></p>
 
 # NBalls for other languages
 

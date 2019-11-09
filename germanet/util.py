@@ -11,7 +11,6 @@ class GermaNetUtil:
 	__w2vec_file = ''
 	__new_w2v_file = ''
 	__ignore_duplicates = True
-	__dim = 50
 	
 
 	def __init__(self, sourcefolder, wordvec_file, new_w2v_file, ignore_duplicates=True):
@@ -128,7 +127,7 @@ class GermaNetUtil:
 
 		# skips step 2 and 3
 		if os.path.isfile(outputFile):
-			print("skipping step 2 and 3")
+			print("'"+outputFile+"' already exists, skipping step 2 and 3. If you want to generate from scratch again remove previously generated files.")
 			synsets = set()
 			with open(outputFile, 'r') as file:
 				for line in file:

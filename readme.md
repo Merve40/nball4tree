@@ -112,7 +112,7 @@ $ python nball.py --neighbors handeln.v.2 handeln.v.5 Teil.n.2 Teil.n.3 Teil.n.4
 ```
 
 * **Result**:
-```json
+```json5
 loading balls....
 50673  balls are loaded
 

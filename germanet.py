@@ -34,13 +34,13 @@ def main():
 
 		input = 'germanet.py --generate_files {} --germanet_xml_path {} --w2v {}'.format(args.generate_files, args.germanet_xml_path, args.w2v)
 		print(input)
-		generate_germanet(args.germanet_xml_path, args.w2v, args.output_dir)
+		generate_germanet(args.germanet_xml_path, args.w2v, args.generate_files)
 
 
 	if args.validate_tree and args.log:
 		input = 'germanet.py --validate_tree {} --log {}'.format(args.validate_tree, args.log)
 		print(input)
-		validate(args.ws_child, args.log)
+		validate(args.validate_tree, args.log)
 
 
 	if args.export_tensorflow and args.w2v and args.ws_child:
@@ -50,7 +50,7 @@ def main():
 
 		input = 'germanet.py --export_tensorflow {} --w2v {} --ws_child {}'.format(args.export_tensorflow, args.w2v, args.ws_child)
 		print(input)
-		export(args.w2v, args.ws_child, args.output_dir)
+		export(args.w2v, args.ws_child, args.export_tensorflow)
 
 def generate_germanet(dir, file_word_embedding, out_dir):
 	if not out_dir.endswith('/'):

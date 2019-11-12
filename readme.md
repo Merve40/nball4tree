@@ -105,13 +105,123 @@ otherwise, failed relations and word-senses will be printed.
 # Experiment 2: Observe neighbors of word-sense using nball embeddings
 * [pre-trained nball embeddings](https://drive.google.com/file/d/176FZwSaLB2MwTOWRFsfxWxMmJKQfoFRw/view?usp=sharing)
 ```
-$ python nball.py --neighbors beijing.n.01 berlin.n.01  --ball /Users/<user-name>/data/glove/glove.6B.50Xball.V10.txt  --num 6
+$ python nball.py --neighbors handeln.v.2 handeln.v.5 Teil.n.2 Teil.n.3 Teil.n.4 Teil.n.5 Gerät.n.1 Gerät.n.2 --ball data/nball.txt --num 12
 % --neighbors: list of word-senses
 % --ball: file location of the nball embeddings
 % --num: number of neighbors
 ```
 
-* Results of nearest neighbors look like below:
+* **Result**:
+```json
+loading balls....
+50673  balls are loaded
+
+{   
+    'handeln.v.2': [   'handeln.v.3',
+                       'handeln.v.5',
+                       'agieren.v.3',
+                       'urteilen.v.2',
+                       'entsorgen.v.1',
+                       'denken.v.1',
+                       'denken.v.2',
+                       'wehren.v.1',
+                       'denken.v.4',
+                       'denken.v.10',
+                       'ausdrücken.v.2',
+                       'beurteilen.v.1'],
+
+    'handeln.v.5': [   'handeln.v.3',
+                       'handeln.v.2',
+                       'agieren.v.3',
+                       'urteilen.v.2',
+                       'entsorgen.v.1',
+                       'denken.v.5',
+                       'ausdrücken.v.2',
+                       'einordnen.v.4',
+                       'denken.v.2',
+                       'evakuieren.v.1',
+                       'evakuieren.v.2',
+                       'wehren.v.1'],
+
+    'Teil.n.2': [      'Profiverein.n.1',
+                       'Hauptstadtverein.n.1',
+                       'Ring.n.5',
+                       'Traditionsklub.n.1',
+                       'Reich.n.1',
+                       'TÜV.n.1',
+                       'Lesering.n.1',
+                       'Traditionsverein.n.1',
+                       'Zweitligaverein.n.1',
+                       'Tennisklub.n.1',
+                       'Drogenring.n.1',
+                       'Albverein.n.1'],
+
+    'Teil.n.3': [      'Kern.n.1',
+                       'Funke.n.2',
+                       'Rußpartikel.n.1',
+                       'Zündfunke.n.1',
+                       'Seitenkette.n.1',
+                       'Kohlepartikel.n.1',
+                       'Atomhülle.n.1',
+                       'Einsprengsel.n.1',
+                       'Sternenstaub.n.1',
+                       'Fremdkörper.n.2',
+                       'C-Atom.n.1',
+                       'Quark.n.3'],
+
+    'Teil.n.4': [      'Kokosnuss.n.1',
+                       'Kürbis.n.2',
+                       'Banane.n.1',
+                       'Ölfrucht.n.1',
+                       'Stachelbeere.n.1',
+                       'Tollkirsche.n.1',
+                       'Johannisbeere.n.1',
+                       'Kochbanane.n.1',
+                       'Scheinfrucht.n.1',
+                       'Flaschenkürbis.n.1',
+                       'Ecker.n.1',
+                       'Beere.n.2'],
+
+    'Teil.n.5': [      'Kern.n.5',
+                       'Weltproduktion.n.2',
+                       'Radioproduktion.n.1',
+                       'Produktion.n.2',
+                       'Ausrüstungsgegenstand.n.1',
+                       'Eigenproduktion.n.2',
+                       'Hörspielproduktion.n.2',
+                       'Seltenheit.n.1',
+                       'Opernproduktion.n.2',
+                       'Erfolgsproduktion.n.1',
+                       'Scheibe.n.4',
+                       'Gemeinschaftsproduktion.n.1'],
+
+    'Gerät.n.1': [     'Elektroschocker.n.1',
+                       'Infanteriewaffe.n.1',
+                       'Maschine.n.2',
+                       'Apparat.n.2',
+                       'Verbrennungsmaschine.n.1',
+                       'Impulsgenerator.n.1',
+                       'Verbrennungsmotor.n.1',
+                       'Schiffsdieselmotor.n.1',
+                       'Selbstlader.n.1',
+                       'Selbstladepistole.n.1',
+                       'Gasgenerator.n.1',
+                       'Sportwaffe.n.1'],
+
+    'Gerät.n.2': [     'Handgerät.n.2',
+                       'Testgerät.n.1',
+                       'Musikgerät.n.1',
+                       'Wahlgerät.n.1',
+                       'Kultgerät.n.1',
+                       'Tauchgerät.n.1',
+                       'Trainingsgerät.n.1',
+                       'Kabel.n.1',
+                       'Leitungsdraht.n.1',
+                       'Kunststoffseil.n.1',
+                       'Militärgerät.n.1',
+                       'Heizdraht.n.1']
+}
+```
 
 
 # NBalls for other languages

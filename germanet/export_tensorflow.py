@@ -30,4 +30,4 @@ def export(w2v, ws_child, out_dir):
         for key in tsv:
             tvec = tsv[key]
             data.write(tvec+'\n')
-        meta.write(key+'\n')
+            meta.write(key+'\n')

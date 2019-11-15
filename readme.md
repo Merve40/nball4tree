@@ -66,44 +66,125 @@ Can be used to compare neighbors in word embedding and neighbors in nball (exper
 ## Experiment 1.1: Training nball embeddings
 Shell command for running the nball construction and training process:
 ```
-% you need to create an empty file nball.txt for output
-
-$ python nball.py --train_nball /Users/<user-name>/data/glove/nball.txt --w2v /Users/<user-name>/data/glove/glove.6B.50d.txt  --ws_child /Users/<user-name>/data/glove/wordSenseChildren47634.txt  --ws_catcode /Users/<user-name>/data/glove/glove.6B.catcode.txt  --log log.txt
-% --train_nball: output file of nball embeddings
-% --w2v: file of pre-trained word embeddings
-% --ws_child: file of parent-children relations among word-senses
-% --ws_catcode: file of the parent location code of a word-sense in the tree structure
-% --log: log file, shall be located in the same directory as the file of nball embeddings
+$ python nball.py --train_nball data/nball.txt --w2v data/ws_w2v.vec  --ws_child data/ws_child.txt --ws_catcode data/ws_catcode.txt --log data/log.txt
 ```
-The training process can take around 6.5 hours. 
 
+**Result:**
+```
+['Spezifikum.n.1', 'Zustand.n.1', 'ortsspezifisch.j.1', 'Entität.n.2', 'Stelle.n.3', 'denken.v.5', 'machen.v.7', 'wahrnehmen.v.3', 'Menge.n.2', 'klassenübergreifend.j.1', 'nehmen.v.1', 'sollen.v.3', 'handeln.v.5', 'sein.v.2', 'bekommen.v.4', 'wünschen.v.1', 'geben.v.4', 'können.v.1', 'haben.v.7', 'Dauerkontakt.v.1', 'haben.v.6', 'wissen.v.2', 'sein.v.3', 'haben.v.1', 'gefallen.v.1', 'gehen.v.7', 'stammen.v.1', 'lassen.v.5', 'müssen.v.2', 'führen.v.5', 'bekommen.v.2', 'kommen.v.2', 'vorangehen.v.1', 'aufhaben.v.3', 'können.v.2', 'sollen.v.1', 'folgen.v.5', 'fehlen.v.5', 'anschließen.v.3', 'halten.v.5', 'folgen.v.1', 'bedeuten.v.2', 'haben.v.8', 'aufhaben.v.2', 'loshaben.v.2', 'haben.v.5', 'sollen.v.2', 'sein.v.5', 'können.v.3']
+
+*** Spezifikum.n.1 
+Shifting Artefakt.n.1
+Shifting Struktur.n.3
+Shifting Ding.n.5
+*** Zustand.n.1 
+Shifting Veränderung.n.1
+Shifting Veränderung.n.2
+Shifting Prozess.n.1
+Shifting Geschehnis.n.1
+Shifting Ereignis.n.1
+Shifting Beziehung.n.1
+Shifting Situation.n.1
+*** ortsspezifisch.j.1 
+*** Entität.n.2 
+Shifting Objekt.n.4
+Shifting Äußerung.n.2
+Shifting Kommunikation.n.1
+Shifting Mitteilung.n.1
+Shifting Übermittlung.n.1
+Shifting Kreation.n.1
+Shifting Erschaffung.n.1
+Shifting Erzeugung.n.1
+Shifting Bewegung.n.3
+*** Stelle.n.3 
+Shifting Handlung.n.2
+Shifting Veranstaltung.n.1
+*** denken.v.5 
+*** machen.v.7 
+*** wahrnehmen.v.3 
+*** Menge.n.2 
+Shifting Gruppe.n.1
+Shifting Teilmenge.n.2
+Shifting Teil.n.2
+Shifting Zusammenschluss.n.1
+Shifting Bauwerk.n.1
+Shifting Veröffentlichung.n.2
+Shifting Produkt.n.2
+Shifting Vorrichtung.n.1
+Shifting Stoff.n.4
+Shifting Hilfe.n.2
+*** klassenübergreifend.j.1 
+*** nehmen.v.1 
+*** sollen.v.3 
+*** handeln.v.5 
+*** sein.v.2 
+*** bekommen.v.4 
+*** wünschen.v.1 
+*** geben.v.4 
+*** können.v.1 
+*** haben.v.7 
+*** Dauerkontakt.v.1 
+*** haben.v.6 
+*** wissen.v.2 
+*** sein.v.3 
+Shifting verarbeiten.v.1
+*** haben.v.1 
+*** gefallen.v.1 
+*** gehen.v.7 
+*** stammen.v.1 
+*** lassen.v.5 
+*** müssen.v.2 
+*** führen.v.5 
+*** bekommen.v.2 
+*** kommen.v.2 
+*** vorangehen.v.1 
+Shifting ändern.v.3
+*** aufhaben.v.3 
+*** können.v.2 
+*** sollen.v.1 
+*** folgen.v.5 
+*** fehlen.v.5 
+*** anschließen.v.3 
+*** halten.v.5 
+*** folgen.v.1 
+*** bedeuten.v.2 
+*** haben.v.8 
+*** aufhaben.v.2 
+*** loshaben.v.2
+Shifting stattfinden.v.1
+*** haben.v.5 
+*** sollen.v.2 
+*** sein.v.5 
+*** können.v.3
+finished training of all families
+
+loading balls....
+[417]
+totally 50674  balls are loaded
+updating first level children...
+```
 
 ## Experiment 1.2: Checking whether tree structures are perfectly embedded into word-embeddings
 * main input is the output directory of nballs created in Experiment 1.1
 * shell command for running the nball construction and training process
 ```
-$ python nball.py --zero_energy <output-path> --ball <output-file> --ws_child /Users/<user-name>/data/glove/wordSenseChildren.txt
-% --zero_energy <output-path> : output path of the nballs of Experiment 1.1, e.g. ```/Users/<user-name>/data/glove/data_out```
-% --ball <output-file> : the name of the output nball-embedding file
-% --ws_child /Users/<user-name>/data/glove/wordSenseChildren.txt: file of parent-children relations among word-senses
+$ python nball.py --zero_energy data/data_out/ --ball data/nball.txt --ws_child data/ws_child.txt
 ```
-The checking process can take around 2 hours.
-* result
 
-If zero-energy is achieved, a big nball-embedding file will be created ```<output-path>/<output-file>```
-otherwise, failed relations and word-senses will be printed.
+**Result:**
+```
+loading balls....
+[417]
+totally 50674  balls are loaded
+failed families with P []
+failed families with DC []
+the tree structure is perfectly embedded in nball embeddings.
 
-** Test result at Mac platform:
-![img|630x420](https://github.com/gnodisnait/nball4tree/blob/master/pic/success_result.png)
-** Test result at Ubuntu platform:
-![](https://github.com/gnodisnait/nball4tree/blob/master/pic/ubuntu_result.png)
- 
-- [nball embeddings with 47634 balls](https://drive.google.com/file/d/1TC5h8PXKQz4rQ4hsFYlWSFsyuoxlkutf/view?usp=sharing)
+generating nball embedding file...
+```
 
-- [nball embeddings with 54310 balls](https://drive.google.com/file/d/1tOJWK08mMx-uUOFxaIGEKqiQLLahKglj/view?usp=sharing)
 
 # Experiment 2: Observe neighbors of word-sense using nball embeddings
-* [pre-trained nball embeddings](https://drive.google.com/file/d/176FZwSaLB2MwTOWRFsfxWxMmJKQfoFRw/view?usp=sharing)
 ```
 $ python nball.py --neighbors handeln.v.2 handeln.v.5 Teil.n.2 Teil.n.3 Teil.n.4 Teil.n.5 Gerät.n.1 Gerät.n.2 --ball data/nball.txt --num 12
 % --neighbors: list of word-senses

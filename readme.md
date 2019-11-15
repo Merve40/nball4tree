@@ -72,7 +72,6 @@ $ python nball.py --train_nball data/nball.txt --w2v data/ws_w2v.vec  --ws_child
 **Result:**
 ```
 ['Spezifikum.n.1', 'Zustand.n.1', 'ortsspezifisch.j.1', 'Entität.n.2', 'Stelle.n.3', 'denken.v.5', 'machen.v.7', 'wahrnehmen.v.3', 'Menge.n.2', 'klassenübergreifend.j.1', 'nehmen.v.1', 'sollen.v.3', 'handeln.v.5', 'sein.v.2', 'bekommen.v.4', 'wünschen.v.1', 'geben.v.4', 'können.v.1', 'haben.v.7', 'Dauerkontakt.v.1', 'haben.v.6', 'wissen.v.2', 'sein.v.3', 'haben.v.1', 'gefallen.v.1', 'gehen.v.7', 'stammen.v.1', 'lassen.v.5', 'müssen.v.2', 'führen.v.5', 'bekommen.v.2', 'kommen.v.2', 'vorangehen.v.1', 'aufhaben.v.3', 'können.v.2', 'sollen.v.1', 'folgen.v.5', 'fehlen.v.5', 'anschließen.v.3', 'halten.v.5', 'folgen.v.1', 'bedeuten.v.2', 'haben.v.8', 'aufhaben.v.2', 'loshaben.v.2', 'haben.v.5', 'sollen.v.2', 'sein.v.5', 'können.v.3']
-
 *** Spezifikum.n.1 
 Shifting Artefakt.n.1
 Shifting Struktur.n.3
@@ -182,6 +181,7 @@ the tree structure is perfectly embedded in nball embeddings.
 
 generating nball embedding file...
 ```
+#### [NBall Embedding](https://drive.google.com/open?id=1Djv4EZXfp9Zpr_iCIW7u8SrdYqkk0Pr5) (6GB)
 
 
 # Experiment 2: Observe neighbors of word-sense using nball embeddings

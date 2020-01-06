@@ -181,7 +181,7 @@ the tree structure is perfectly embedded in nball embeddings.
 
 generating nball embedding file...
 ```
-#### [NBall Embedding](https://drive.google.com/open?id=1Djv4EZXfp9Zpr_iCIW7u8SrdYqkk0Pr5) (6GB)
+#### [NBall Embedding](https://drive.google.com/open?id=1F_Ga6hr8E3Q66126usxwSWwvif3L3qvP) (6GB)
 
 
 # Experiment 2: Observe neighbors of word-sense using nball embeddings
